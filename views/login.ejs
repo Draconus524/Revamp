@@ -1,0 +1,45 @@
+<%- include('header'); -%>
+
+    <div style="text-align: center;">
+        <h1>Login</h1>
+        <div>
+        <div id="sawo-container" style="margin:auto; display : flex; justify-content : center; width : 25%; height: 450px;"></div>
+
+        <script src="https://websdk.sawolabs.com/sawo.min.js"></script>
+        <script>
+            const payload = getCookie("payload");
+            console.log(payload);
+            if (payload) {
+                window.location.href = "/";
+            }
+            var config = {
+                containerID: "sawo-container",
+                identifierType: "email",
+                apiKey: "6e72516e-0231-4abd-b90f-65d38ce8db45",
+                onSuccess: (payload) => {
+                    document.cookie = "payload="+JSON.stringify(payload);
+                    window.location.href = "/";
+                },
+            };
+            var sawo = new Sawo(config);
+            sawo.showForm();
+
+            function getCookie(cname) {
+                let name = cname + "=";
+                let decodedCookie = decodeURIComponent(document.cookie);
+                let ca = decodedCookie.split(';');
+                for(let i = 0; i <ca.length; i++) {
+                  let c = ca[i];
+                  while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                  }
+                  if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                  }
+                }
+                return "";
+              }
+        </script>
+    </div>
+
+<%- include('footer'); -%>
